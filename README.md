@@ -33,3 +33,11 @@ A customizable degree planning tool designed to help students track degree requi
 
    ```bash
    git clone https://github.com/yourusername/degree-planner.git
+
+2. Install required Python libraries
+
+   pip install -r requirements.txt
+
+3. Run the web application
+
+   python app.py
