@@ -36,8 +36,10 @@ A customizable degree planning tool designed to help students track degree requi
 
 2. Install required Python libraries
 
+   ```bash
    pip install -r requirements.txt
 
 3. Run the web application
 
+   ```bash
    python app.py
