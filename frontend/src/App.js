@@ -1,5 +1,5 @@
 import './App.css';
-import { Selector } from './SearchMenu.js';
+import { SearchMenu } from './SearchMenu.js';
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 
 // add CSS class for home-link
@@ -10,9 +10,10 @@ function App() {
       <div className="App">
         <nav id="nav-bar" className="nav-bar">
           <Link className="home-link" to="/">Home</Link>
+          <h1 className="header">Degree Planner</h1>
         </nav>
         <Routes>
-          <Route path="/" element={<Selector/>}/>
+          <Route path="/" element={<SearchMenu/>}/>
         </Routes>
       </div>
     </Router>
