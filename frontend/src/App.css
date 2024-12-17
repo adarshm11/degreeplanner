@@ -1,0 +1,22 @@
+.App {
+  text-align: center;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+.nav-bar {
+  display: flex;
+  padding: 0 20px;
+  background-color: lightgray;
+  top: 0px;
+  height: 50px
+}
+
+.home-link {
+  align-items: center;
+  font-size: 100%;
+}
+
+.header {
+  text-align: center;
+  width: 100%;
+}
