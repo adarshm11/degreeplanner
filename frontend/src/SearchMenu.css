@@ -42,7 +42,7 @@ input {
     width: 300px;
 }
 
-.confirm-button {
+.menu-button {
     color: white;
     background-color: blue;
     font-size: 100%;
@@ -51,11 +51,11 @@ input {
     margin-top: 20px;
 }
 
-.confirm-button:hover {
+.menu-button:hover {
     cursor: pointer;
     background-color: mediumblue;
 }
 
-.confirm-button:active {
+.menu-button:active {
     background-color: darkblue;
 }

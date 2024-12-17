@@ -12,6 +12,7 @@ export function SearchMenu() {
     const [major, setMajor] = useState("");
     const [input, setInput] = useState("");
     const [isUniversityChosen, setIsUniversityChosen] = useState(false);
+    const [currentPage, setCurrentPage] = useState("university");
 
     const handleUniversityChange = (e) => {
         setInput(e.target.value);
@@ -37,42 +38,117 @@ export function SearchMenu() {
     const handleClick = (firstStepDone) => {
         if (firstStepDone) { // button is being clicked after university is chosen
             // transition to major selection
+            setInput("");
+            setCurrentPage("major");
         }
     }
+
+    const handleBackClick = () => {
+        setInput("");
+        setCurrentPage("university");
+    }
+
+    const majors =
+        university?.id === "SJSU" ? sjsu_majors :
+        university?.id === "UCSC" ? ucsc_majors : 
+        university?.id === "UMN" ? umn_majors : 
+        [];
 
     const filteredUniversities = universities.filter((uni =>
         uni.name.toLowerCase().includes(input.toLowerCase()) ||
         uni.id.toLowerCase().includes(input.toLowerCase())
     ));
 
+    const filteredMajors = majors.filter(maj =>
+        maj.toLowerCase().includes(input.toLowerCase())
+    );
+    
     return (
         <div className="search-menu-container">
-            <input className="search-bar"
-                type="text"
-                value={input}
-                onChange={handleUniversityChange}
-                placeholder="Enter university..."
-            />
-            {input && !university && filteredUniversities.length > 0 && (
-                <ul className="dropdown-menu">
-                    {filteredUniversities.map((result) => (
-                        <li
-                            key={result.id}
-                            onClick={() => handleSelectedUniversity(result)}
+            <AnimatePresence>
+                {currentPage === "university" && (
+                    <motion.div
+                        key="university-page"
+                        initial={{ x: 0 }}
+                        animate={{ x: 0 }}
+                        exit={{ x: "-100%" }}
+                        transition={{ duration: 0.5 }}
+                        className="university-page"
+                    >
+                        <input className="search-bar"
+                            type="text"
+                            value={input}
+                            onChange={handleUniversityChange}
+                            placeholder="Enter university..."
+                        />
+                        {input && !university && filteredUniversities.length > 0 && (
+                            <ul className="dropdown-menu">
+                                {filteredUniversities.map((result) => (
+                                    <li
+                                        key={result.id}
+                                        onClick={() => handleSelectedUniversity(result)}
+                                    >
+                                        {result.name}
+                                    </li>
+                                ))}
+                            </ul>
+                        )}
+                        {university && (
+                            <button 
+                                className="menu-button"
+                                onClick={() => handleClick(isUniversityChosen)}
+                            >
+                                <strong>CONFIRM</strong>
+                            </button>
+                        )}
+                    </motion.div>
+                )}
+
+                {currentPage === "major" && (
+                    <motion.div
+                        key="major-page"
+                        initial={{ x: "100%" }}
+                        animate={{ x: 0 }}
+                        exit={{ x: "100%" }}
+                        transition={{ duration: 0.5 }}
+                        className="major-page"
+                    >
+                        <input className="search-bar"
+                            type="text"
+                            value={input}
+                            onChange={handleMajorChange}
+                            placeholder="Enter major..."
+                        />
+                        {input && filteredMajors.length > 0 && (
+                            <ul className="dropdown-menu">
+                                {filteredMajors.map((result, index) => (
+                                    <li
+                                        key={index}
+                                        onClick={() => handleSelectedMajor(result)}
+                                    >
+                                        {result}
+                                    </li>
+                                ))}
+                            </ul>
+                        )}
+                        <button 
+                            className="menu-button"
+                            onClick={() => handleBackClick()}
                         >
-                            {result.name}
-                        </li>
-                    ))}
-                </ul>
-            )}
-            {university && (
-                <button 
-                    className="confirm-button"
-                    onClick={() => handleClick(isUniversityChosen)}
-                >
-                    <strong>CONFIRM</strong>
-                </button>
-            )}
+                            <strong>BACK</strong>
+                        </button>
+                        
+                        {major && (
+                            <button 
+                                className="menu-button"
+                                onClick={() => alert(`You selected ${university.name} and major ${major}`)}
+                            >
+                                <strong>CONFIRM</strong>
+                            </button>
+                        )}
+                    </motion.div>
+                )}
+            </AnimatePresence>
         </div>
-    );  
+    );
 };
