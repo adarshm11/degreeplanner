@@ -72,7 +72,7 @@ def umn_scrape():
         print('Error encountered:', e)
     
     finally:
-        driver.quit()  # Ensure the browser is closed
+        driver.quit()  
 
     results = []
     soup = BeautifulSoup(page, 'html.parser')

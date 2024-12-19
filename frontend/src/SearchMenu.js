@@ -6,6 +6,7 @@ import umn_majors from "./majors/umn_majors.json";
 import './SearchMenu.css';
 import { motion, AnimatePresence } from 'framer-motion';
 
+// SearchMenu component to select university and major
 export function SearchMenu() {
 
     const [university, setUniversity] = useState(null);
@@ -14,51 +15,59 @@ export function SearchMenu() {
     const [isUniversityChosen, setIsUniversityChosen] = useState(false);
     const [currentPage, setCurrentPage] = useState("university");
 
+    // Handles change in university search input
     const handleUniversityChange = (e) => {
         setInput(e.target.value);
         setUniversity(null);
     }
 
+    // Handles change in major search input
     const handleMajorChange = (e) => {
         setInput(e.target.value);
         setMajor(null);
     }
 
+    // Handles selection of a university
     const handleSelectedUniversity = (uni) => {
         setUniversity(uni);
         setInput(uni.name);
         setIsUniversityChosen(true);
     }
     
+    // Handles selection of a major
     const handleSelectedMajor = (maj) => {
         setMajor(maj);
         setInput(maj);
     }
 
+    // Handles "Next" button click after a university is chosen
     const handleClick = (firstStepDone) => {
-        if (firstStepDone) { // button is being clicked after university is chosen
-            // transition to major selection
+        if (firstStepDone) {
             setInput("");
             setCurrentPage("major");
         }
     }
 
+    // Handles "Back" button click to go back to university selection
     const handleBackClick = () => {
         setInput("");
         setCurrentPage("university");
     }
 
+    // Determine majors based on selected university
     const majors =
         university?.id === "SJSU" ? sjsu_majors :
         university?.id === "UCSC" ? ucsc_majors : 
         university?.id === "UMN" ? umn_majors : 
         [];
 
+    // Filter universities based on search input
     const filteredUniversities = universities.filter((uni =>
         uni.name.toLowerCase().includes(input.toLowerCase()) ||
         uni.id.toLowerCase().includes(input.toLowerCase())
     ));
 
+    // Filter majors based on search input
     const filteredMajors = majors.filter(maj =>
         maj.toLowerCase().includes(input.toLowerCase())
     );
@@ -66,6 +75,7 @@ export function SearchMenu() {
     return (
         <div className="search-menu-container">
             <AnimatePresence>
+                {/* University selection page */}
                 {currentPage === "university" && (
                     <motion.div
                         key="university-page"
@@ -104,6 +114,7 @@ export function SearchMenu() {
                     </motion.div>
                 )}
 
+                {/* Major selection page */}
                 {currentPage === "major" && (
                     <motion.div
                         key="major-page"
@@ -131,6 +142,7 @@ export function SearchMenu() {
                                 ))}
                             </ul>
                         )}
+                        {/* Button to go back to university selection */}
                         <button 
                             className="menu-button"
                             onClick={() => handleBackClick()}
@@ -138,6 +150,7 @@ export function SearchMenu() {
                             <strong>BACK</strong>
                         </button>
                         
+                        {/* Confirm major selection */}
                         {major && (
                             <button 
                                 className="menu-button"
